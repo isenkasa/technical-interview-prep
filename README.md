@@ -22,4 +22,40 @@ Method overriding is a feature that allows a subclass or child class to provide 
 ### Cloud-native Applications
 Cloud-native applications are a collection of small, independent, and loosely coupled services. AWS custom lambdas can be considered cloud-native applications. Cloud-native apps follow a microservices architecture and often require containers.
 
+### Microservices
 Microservices are both an architecture and an approach to writing software. With microservices, applications are broken down into their smallest components, independent from each other. Instead of a traditional, monolithic, approach to apps, where everything is built into a single piece, microservices are all separated and work together to accomplish the same tasks. Each of these components, or processes, is a microservice. This approach to software development values granularity, being lightweight, and the ability to share similar process across multiple apps. It is a major component of optimizing application development towards a cloud-native model.
+
+### Relational Databases
+A relational database is a digital database based on the relational model of data.
+
+Normalization is the process of eliminating redundant data and maintaining data dependencies.
+
+Denormalization is the process of improving the performance of the database by adding redundant data.
+
+#### Database ACID Properties:
+- Atomicity: It ensures all-or-none rule for database modifications.
+- Consistency: Data values are consistent across the database.
+- Isolation: Two transactions are said to be independent of one another.
+- Durability: Data is not lost even at the time of server failure.
+
+#### Clustered Index vs non-clustered index
+-A clustered index is a special type of index that reorders the way records in the table are physically stored. Therefore table can have only one clustered index. The leaf nodes of a clustered index contain the data pages.
+-A non clustered index is a special type of index in which the logical order of the index does not match the physical stored order of the rows on disk. The leaf node of a non clustered index does not consist of the data pages. Instead, the leaf nodes contain index rows.
+
+### SQL vs. NoSQL
+NoSQL is better than RDBMS because of the following reasons/properities of NoSQL:
+- It supports semi-structured data and volatile data
+- It does not have schema
+- Read/Write throughput is very high
+- Horizontal scalability can be achieved easily
+- Will support Bigdata in volumes of Terra Bytes & Peta Bytes
+- Provides good support for Analytic tools on top of Bigdata
+- Can be hosted in cheaper hardware machines
+- In-memory caching option is available to increase the performance of queries
+- Faster development life cycles for developers
+
+Still, RDBMS is better than NoSQL for the following reasons/properties of RDBMS:
+- Transactions with ACID properties - Atomicity, Consistency, Isolation & Durability
+- Adherence to Strong Schema of data being written/read
+- Real time query management ( in case of data size < 10 Tera bytes )
+- Execution of complex queries involving join & group by clauses
