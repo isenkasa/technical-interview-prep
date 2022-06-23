@@ -11,6 +11,8 @@ An instance is an object that is built from a class and contains real data.
 
 Encapsulation describes the idea of bundling data and methods that work on that data within one unit, like a class in Java. This concept is also often used to hide the internal representation, or state of an object from the outside. This is called information hiding.
 
+Abstraction is the concept of object-oriented programming that “shows” only essential attributes and “hides” unnecessary information. For example, we have public fields and private fields. The same goes to methods.
+
 Inheritance is the process by which one class takes on the attributes and methods of another. Newly formed classes are called child classes, and the classes that child classes are derived from are called parent classes.
 
 Polymorphism refers to a subclass's ability to adapt a method that already exists in its superclass to meet its needs. To put it another way, a subclass can use a method from its superclass as is or modify it as needed.
@@ -21,6 +23,24 @@ Method overriding is a feature that allows a subclass or child class to provide 
 
 ### Cloud-native Applications
 Cloud-native applications are a collection of small, independent, and loosely coupled services. AWS custom lambdas can be considered cloud-native applications. Cloud-native apps follow a microservices architecture and often require containers.
+
+Cloud-native apps take advantage of the cloud delivery model and they are designed and built to exploit the scale, elasticity, resiliency, and flexibility the cloud provides.
+
+Cloud native applications—or native cloud applications (NCAs)—are programs designed for a cloud computing architecture. They have many benefits.
+
+- Independence: Their architecture makes it possible to build cloud native applications independently of each other. This means you also can manage and deploy them individually.
+- Resiliency: A well-designed cloud native application is able to survive and stay online even in the event of an infrastructure outage.
+- Standards-based: For interoperability and workload portability, cloud native services are often based on open source and standards based technology. This helps reduce vendor lock-in and results in increased portability.
+- Business agility: Cloud native applications enable flexible deployment options across the network, and are also smaller than traditional apps, which makes them easier to develop, deploy, and iterate.
+- Automation: Cloud native applications use DevOps automations features and enable continuous delivery and deployment of software changes that get released on a regular basis. Additionally, developers can use methodologies like blue-green and canary deployments to make improvements to the apps without any disruption to the user experience.
+- No downtime: Thanks to container orchestrators such as Kubernetes, you can deploy a software update with essentially zero downtime.
+- Portability. Cloud-native applications are vendor neutral and use containers to port microservices between different vendors' infrastructure, helping avoid vendor lock-in.
+- Easy to manage. Cloud-native applications use automation to deploy app features and updates. Developers can track all microservices and components as they're being updated. Because applications are divided into smaller services, one engineering team can focus on a specific microservice and doesn't have to worry about how it will interact with other microservices.
+- Visibility. Because a microservice architecture isolates services, it makes it easier for engineering teams to study applications and learn how they function together.
+
+Example cloud native application development by using standards-based technologies such as Kubernetes, Docker, serverless functions, APIs, and Kafka.
+
+Kubernetes is an open source platform for managing clusters of containerized applications and services. The key components of Kubernetes are clusters, nodes, and the control plane. Clusters contain nodes. Each node comprises a set of at least one worker machine. The nodes host pods that contain elements of the deployed application. The control plane manages nodes and pods in the cluster, often across many computers, for resiliency and high availability.
 
 ### Microservices
 Microservices are both an architecture and an approach to writing software. With microservices, applications are broken down into their smallest components, independent from each other. Instead of a traditional, monolithic, approach to apps, where everything is built into a single piece, microservices are all separated and work together to accomplish the same tasks. Each of these components, or processes, is a microservice. This approach to software development values granularity, being lightweight, and the ability to share similar process across multiple apps. It is a major component of optimizing application development towards a cloud-native model.
