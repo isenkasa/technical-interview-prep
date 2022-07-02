@@ -22,7 +22,7 @@ Method overloading refers to the use of many methods with the same name that tak
 Method overriding is a feature that allows a subclass or child class to provide a specific implementation of a method that is already provided by one of its superclasses or parent classes.
 
 ### Design Patterns
-Coming soon. 
+Coming soon...
 
 ### Cloud-native Applications
 Cloud-native applications are a collection of small, independent, and loosely coupled services. AWS custom lambdas can be considered cloud-native applications. Cloud-native apps follow a microservices architecture and often require containers.
