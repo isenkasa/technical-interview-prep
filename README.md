@@ -22,7 +22,8 @@ Method overloading refers to the use of many methods with the same name that tak
 Method overriding is a feature that allows a subclass or child class to provide a specific implementation of a method that is already provided by one of its superclasses or parent classes.
 
 ### Design Patterns
-Coming soon.
+Singleton Pattern:
+This pattern involves a single class which is responsible to create an object while making sure that only a single object gets created. This class provides a way to access its only object which can be accessed directly without need to instantiate the object of the class. In other words, the constructor is declared as private, instantiated within the class, and a public static instance getter method is provided in order to ensure that only one instance of this object can be created.
 
 ### Cloud-native Applications
 Cloud-native applications are a collection of small, independent, and loosely coupled services. AWS custom lambdas can be considered cloud-native applications. Cloud-native apps follow a microservices architecture and often require containers.
