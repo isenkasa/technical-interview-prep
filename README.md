@@ -58,8 +58,8 @@ State Pattern:
 A behavioral pattern in which an object behaves differently based on its state. In other words, we create subclasses to represent each possible state which are based on a general interface. Each subclass then implements its own behavior based on the underlying conditions. This is helpful in scaling as it makes the behavior of objects more predictable and allows us to implement new behaviors more easily.
 
 More patterns:
-https://www.developer.com/design/a-quick-look-into-common-and-useful-patterns-in-java/
-https://www.tutorialspoint.com/design_pattern/memento_pattern.htm
+- https://www.developer.com/design/a-quick-look-into-common-and-useful-patterns-in-java/
+- https://www.tutorialspoint.com/design_pattern/memento_pattern.htm
 
 ### Cloud-native Applications
 Cloud-native applications are a collection of small, independent, and loosely coupled services. AWS custom lambdas can be considered cloud-native applications. Cloud-native apps follow a microservices architecture and often require containers.
