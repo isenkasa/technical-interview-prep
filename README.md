@@ -157,7 +157,7 @@ It’s a unique code which is passed in the computer programs for authenticating
 Interaction touchpoints between server and API are called Endpoint. In other words, this is the API route or “resource” (localhost:3000/api/**_get-vehicles_**).
 
 #### JSON
-JSON (JavaScript Object Notion is a data format) is a data format which is used for APIs to interchange data. This interchange of data can occur between a web application and a server or two applications.
+JSON (JavaScript Object Notion is a data format) is a data format which is used for APIs to interchange data. This interchange of data can occur between a web application and a server or two applications. Data is stored in "key-value" pairs.
 
 #### GET
 It’s a method which is used for requesting data from the server at a specified resource.
