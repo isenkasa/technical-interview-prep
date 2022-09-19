@@ -24,7 +24,7 @@ Method overriding is a feature that allows a subclass or child class to provide 
 ### Multithreading
 
 -	To implement multithreading in a Java application we can create a class that implements the Runnable interface or a class that extends the Thread class. Thread and Runnable both require us to override their run() methods. We can then create separate instance objects representing each thread and run our code using those objects as needed.
--	It is generally best to implement the Runnable interface instead of extending Thread because Java only allows us to extend/inherit one class per subclass. Implementing Runnable will allow us to extend our class if we need to, while retaining multithreading capability.
+-	It is generally best to implement the Runnable interface instead of extending Thread because Java only allows us to extend/inherit one class per subclass. Implementing the Runnable interface will allow us to extend our class if we need to, while retaining multithreading capability.
 
 
 ### Design Patterns
