@@ -21,9 +21,51 @@ Method overloading refers to the use of many methods with the same name that tak
 
 Method overriding is a feature that allows a subclass or child class to provide a specific implementation of a method that is already provided by one of its superclasses or parent classes.
 
+### Multithreading
+
+-	To implement multithreading in a Java application we can create a class that implements the Runnable interface or a class that extends the Thread class. Thread and Runnable both require us to override their run() methods. We can then create separate instance objects representing each thread and run our code using those objects as needed.
+-	It is generally best to implement the Runnable interface instead of extending Thread because Java only allows us to extend/inherit one class per subclass. Implementing the Runnable interface will allow us to extend our class if we need to, while retaining multithreading capability.
+
+
 ### Design Patterns
+Types of Patterns
+-	Creational: different ways to create objects
+-	Structural: relationships between objects
+-	Behavioral: interaction/communication between objects
+
 Singleton Pattern:
-This pattern involves a single class which is responsible to create an object while making sure that only a single object gets created. This class provides a way to access its only object which can be accessed directly without need to instantiate the object of the class. In other words, the constructor is declared as private, instantiated within the class, and a public static instance getter method is provided in order to ensure that only one instance of this object can be created.
+This creational pattern involves a single class which is responsible to create an object while making sure that only a single object gets created. This class provides a way to access its only object which can be accessed directly without need to instantiate the object of the class. In other words, the constructor is declared as private, instantiated within the class, and a public static instance getter method is provided in order to ensure that only one instance of this object can be created.
+
+Prototype Pattern:
+This creational pattern involves creating an object based off an existing one. When the creation of a new object is deemed costly, we can instead create a duplicate which inherits the state of the original object by passing it into the new one as a prototype. Then, we can run any necessary operations on the new object in order to make it suit our needs. Another way to look at it is in terms of inheritance. Instead of creating a class which inherits from another class, we instantiate an object that inherits from another object.
+
+Builder Pattern:
+In this creational pattern, we populate an object's state step by step by using setter methods instead of a constructor. The completed object is returned in the last step of this pattern. The process of constructing an object should be generic. This is useful when creating a complex object so that the same construction pattern can yield a different representation of the object.
+
+Factory Pattern:
+In this creational pattern, we create an object without exposing the creation logic to the client and refer to the newly created object using a common interface. This is useful when writing a lot of background conditional logic that determines the state of that object, like how it behaves on different platforms (ex. Android or iOS). We can create a subclass or method which determines which object will be instantiated.
+
+Facade Pattern:
+A structural pattern that hides complicated internal implementation details, presenting to the user a simple, easy-to-use interface or "facade." This pattern is useful for simplifying the usage of an object that performs a lot of complicated dependent operations in the background (ex. A compiler).
+
+Proxy Pattern:
+A structural pattern for a class that represents the functionality of another class. Proxy classes are useful for handling things like re-renders when the state of its main object changes. Proxies are also useful when dealing with a very large main object that would be costly to duplicate in memory.
+
+Iterator Pattern:
+A behavioral pattern used to access the elements of a collection object sequentially without any need to know its underlying representation. In other words, this pattern allows us to iterate over the data stored by a collection object by including an iterator method in the implementation of its class.
+
+Observer Pattern:
+A behavioral pattern in which an observer object is created to keep track of changes in objects that are dependent on each other. This is used when there is a one-to-many relationship between objects. The observer object notifies all of the objects that are dependent on another object when the state of that object changes.
+
+Mediator Pattern:
+A behavioral pattern in which a mediator is used to coordinate objects participating in a many-to-many relationship. This pattern provides a mediator class which normally handles all the communications between different classes and supports easy maintenance of the code by loose coupling.
+
+State Pattern:
+A behavioral pattern in which an object behaves differently based on its state. In other words, we create subclasses to represent each possible state which are based on a general interface. Each subclass then implements its own behavior based on the underlying conditions. This is helpful in scaling as it makes the behavior of objects more predictable and allows us to implement new behaviors more easily.
+
+More patterns:
+- https://www.developer.com/design/a-quick-look-into-common-and-useful-patterns-in-java/
+- https://www.tutorialspoint.com/design_pattern/memento_pattern.htm
 
 ### Cloud-native Applications
 Cloud-native applications are a collection of small, independent, and loosely coupled services. AWS custom lambdas can be considered cloud-native applications. Cloud-native apps follow a microservices architecture and often require containers.
@@ -112,10 +154,10 @@ Keywords:
 It’s a unique code which is passed in the computer programs for authenticating user, developer, or calling program.
 
 #### Endpoint
-Interaction touchpoints between server and API are called Endpoint.
+Interaction touchpoints between server and API are called Endpoint. In other words, this is the API route or “resource” (localhost:3000/api/**_get-vehicles_**).
 
 #### JSON
-JSON (JavaScript Object Notion is a data format) is a data format which is used for APIs to interchange data. This interchange of data can occur between a web application and a server or two applications.
+JSON (JavaScript Object Notion is a data format) is a data format which is used for APIs to interchange data. This interchange of data can occur between a web application and a server or two applications. Data is stored in "key-value" pairs.
 
 #### GET
 It’s a method which is used for requesting data from the server at a specified resource.
