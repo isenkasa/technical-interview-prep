@@ -68,6 +68,83 @@ Other solutions include using an array to count. If we want to solve using O(1) 
     return sSort == tSort;
 ```
 
+### Two Sum
+Given an array of integers nums and an integer target, return the indices i and j such that nums[i] + nums[j] == target and i != j.
+
+You may assume that every input has exactly one pair of indices i and j that satisfy the condition.
+
+Return the answer with the smaller index first.
+
+```
+twoSum(nums, target) {
+    const prevMap = new Map();
+
+    for (let i = 0; i < nums.length; i++) {
+        const diff = target - nums[i];
+        if (prevMap.has(diff)) {
+            return [prevMap.get(diff), i];
+        }
+
+        prevMap.set(nums[i], i);
+    }
+
+    return [];
+}
+```
+
+Solution: use HashMap
+Runtime: O(n)
+Space: O(n)
+
+Notes: need to be familiar with the Map() functions - very useful for working with hashmaps.
+Need to clarify with interviewer whether we can use the same element twice. Do we return values instead of indeces? There could be variations of this same problem.
+
+### Group Anagrams
+
+Given an array of strings strs, group all anagrams together into sublists. You may return the output in any order.
+
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+There are two possible solutions to this problem.
+
+**Sorting**
+```
+groupAnagrams(strs) {
+    const res = {};
+    for (let s of strs) {
+        const sortedS = s.split('').sort().join('');
+        if (!res[sortedS]) {
+            res[sortedS] = [];
+        }
+        res[sortedS].push(s);
+    }
+    return Object.values(res);
+}
+```
+Time complexity: O(n*logn)
+Space complexity: O(n)
+
+**HashMap**
+```
+groupAnagrams(strs) {
+    const res = {};
+    for (let s of strs) {
+        const count = new Array(26).fill(0);
+        for (let c of s) {
+            count[c.charCodeAt(0) - 'a'.charCodeAt(0)] += 1;
+        }
+        const key = count.join(',');
+        if (!res[key]) {
+            res[key] = [];
+        }
+        res[key].push(s);
+    }
+    return Object.values(res);
+}
+```
+Time complexity: O(n)
+Space complexity: O(n)
+
 ## Two Pointers
 ## Sliding Window
 ## Binary Search

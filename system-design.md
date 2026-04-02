@@ -86,7 +86,7 @@ Common solutions:
 
 So the solution depends on the problem we are trying to solve. Do we need to scale for read, write, data or compute?
 
-### Common scalability bottlenecks
+##### Common scalability bottlenecks
 When a system does not scale well, it is often because of one of these:
 - database becomes overloaded
 - one server handles all traffic
@@ -100,7 +100,7 @@ When a system does not scale well, it is often because of one of these:
 
 First, we need to identify the bottleneck. Then we need to scale the part under pressure, rather than blindly adding capacity everywhere.
 
-## Load balancing basics
+### Load balancing basics
 A load balancer distributes incoming traffic across multiple servers so no single server gets overwhelmed.
 
 Example:
@@ -272,4 +272,112 @@ Good for:
 Managed internally by database engine
 Good to know exists, but usually not your main interview focus
 
-## When to cache vs not cache
+### Common caching strategies
+**Cache-aside**
+Most common.
+Flow:
+- app checks cache
+- on miss, app fetches from DB
+- app writes to cache
+- returns result
+
+Pros:
+- simple
+- only cache data that is actually requested
+Cons:
+- first request is slower
+- stale data risk after DB update
+
+**Write-through**
+When app writes to DB, it also writes to cache immediately
+Pros:
+- cache stays fresh
+
+Cons:
+- extra write overhead
+- may cache unused data
+
+**Write-back/write-behind**
+Write to cache first, then database later
+Pros:
+- very fast writes
+
+Cons:
+- higher complexity
+- risk of data loss if cache fails before DB write
+
+Not usually first choice unless special performance needs exist
+
+**Refresh-ahead**
+Cache proactively refreshed before expiry
+Useful for:
+- hot keys
+- frequently accessed content
+
+### When to cache vs not cache
+
+You should cache data when data is:
+- read heavy
+- expensive to compute
+- slow to fetch
+- stable enough
+
+Avoid caching when data is
+- highly dynamic
+    - stock price tick data
+    - real time game state
+    - rapidly changing dashboards
+- user-specific and sensitive
+    - private account details
+- rarely requested
+- cheap to compute and fetch
+- consistency-critical
+    - bank balances
+    - payment state
+    - inventory counts
+
+In these cases, either avoid caching or use very careful invalidation and low TTL
+
+**Summary**
+Cache when:
+- data is read often
+- data changes infrequently
+- fetching it is expensive
+- small staleness is acceptable
+
+Avoid or limit cache when:
+- data changes constantly
+- strict real-time consistency is required
+- wrong stale data could cause user or business issues
+- cache invalidation complexity outweighs benefit
+
+### Cache invalidation
+One of the hardest parts of caching is keeping data fresh
+
+Common strategies:
+
+**TTL-based expiration**
+Let data expire after a set time.
+Example: user profile cached for 5 minutes.
+
+**Explicit invalidation**
+When data changes, delete or update corresponding cache key
+Example: user updates profile -> app deletes cache key
+
+**Versioned keys**
+Use version number in cache key so old values stop being used
+Example: ```product:123:v2```
+
+**Tradeoff**
+Long TTL:
+- higher performance
+- more stale risk
+
+Short TTL:
+- fresher data
+- lower cache effectiveness
+
+Caching is not free. Caching improves speed but introduces stale reads, invalidation complexity, operational complexity. We should only cache where the performance gains justify the consistency tradeoff.
+
+Rules of thumb:
+To scale a system, keep the app tier stateless, put a load balancer in front, cache frequent reads with Redis, serve static content through a CDN, and treat the database as the source of truth.
