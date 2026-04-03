@@ -2,6 +2,8 @@
 
 [4-Week Learning Plan](./PLAN.md)
 
+[Core JS Topics for Interviews](./core-js-topics-for-interviewing.md)
+
 [LeetCode](./leet-code.md)
 
 [System Design](./system-design.md)
