@@ -16,14 +16,13 @@ It is focused on the language behaviors and patterns that commonly matter in cod
 ```js
 Array(n) // empty slots, not real values yet
 Array(n).fill(0)
-Array.from({ length: n }, () => 0)
-Array.from({ length: n }, () => [])
 ```
 
 ## Critical gotcha: shared references
 
 ```js
 Array(3).fill([]) // wrong for independent inner arrays
+// Create array of empty arrays
 Array(3).fill(null).map(() => []) // correct
 ```
 
@@ -60,20 +59,64 @@ arr.forEach((value, index) => {})
 ## Common methods
 
 ```js
-arr.push(x)
-arr.pop()
-arr.shift()
-arr.unshift(x)
+let arr = [1, 2, 3, 4]
 
-arr.map(fn)
-arr.filter(fn)
-arr.reduce(fn, initialValue)
 
-arr.sort((a, b) => a - b)
+// === ADD / REMOVE (MUTATES array) ===
+
+arr.push(5)        // [1,2,3,4,5]
+arr.pop()          // removes 5 → [1,2,3,4]
+
+arr.shift()        // removes 1 → [2,3,4]
+arr.unshift(1)     // [1,2,3,4]
+
+
+// === ITERATION / TRANSFORMATION (DOES NOT mutate) ===
+
+// multiply each element by 2
+const doubled = arr.map(x => x * 2)
+// [2,4,6,8]
+
+// keep numbers greater than 2
+const filtered = arr.filter(x => x > 2)
+// [3,4]
+
+// sum all numbers
+const sum = arr.reduce((acc, x) => {
+  // acc = accumulator (running total from previous steps)
+  // x = current element in the array
+  return acc + x // add current value to running total
+}, 0) // 0 = initial value of acc
+// Output: 10
+// PROCESS
+// acc starts at 0
+// then:
+// acc=0, x=1 → 1
+// acc=1, x=2 → 3
+// acc=3, x=3 → 6
+// acc=6, x=4 → 10
+
+// === ORDERING (MUTATES array) ===
+
+arr.sort((a, b) => b - a)
+// descending → [4,3,2,1]
+
 arr.reverse()
+// [1,2,3,4]
 
-arr.slice(start, end) // non-mutating copy
-arr.splice(start, deleteCount) // mutates
+// === COPYING / MODIFYING ===
+
+// NON-MUTATING
+const subArray = arr.slice(1, 3)
+// [2,3] (original arr unchanged)
+
+// MUTATING
+arr.splice(1, 2)
+// removes 2 elements starting at index 1 → [1,4]
+
+// insert using splice
+arr.splice(1, 0, 99)
+// [1,99,4]
 ```
 
 ## Important behaviors
