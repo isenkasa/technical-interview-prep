@@ -4,6 +4,8 @@
 
 [JS Topics for Interviews](./topics/core-js-topics-for-interviewing/core-js-topics-for-interviewing-extended.md)
 
+[Object Oriented Programming](./topics/oop.md)
+
 [General Concepts](./topics/concepts.md)
 
 [System Design](./topics/system-design.md)
