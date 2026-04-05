@@ -2,16 +2,16 @@
 
 [4-Week Learning Plan](./PLAN.md)
 
-[Core JS Topics for Interviews](./core-js-topics-for-interviewing-extended.md)
+[JS Topics for Interviews](./topics/core-js-topics-for-interviewing/core-js-topics-for-interviewing-extended.md)
 
-[System Design](./system-design.md)
+[General Concepts](./topics/concepts.md)
 
-[Backend Concepts](./backend.md)
+[System Design](./topics/system-design.md)
 
-[Networking](./networking.md)
+[Backend Concepts](./topics/backend.md)
 
-[Security](./security.md)
+[Networking](./topics/networking.md)
 
-[JS/TS/Node Fundamentals](./js-ts-fundamentals.md)
+[Security](./topics/security.md)
 
-[Concepts](./concepts.md)
+[JS/TS/Node Fundamentals](./topics/js-ts-fundamentals.md)

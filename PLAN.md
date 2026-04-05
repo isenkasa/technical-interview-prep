@@ -14,7 +14,7 @@ Focus areas:
 
 # WEEK 1 — Foundations + Core Patterns
 
-## LeetCode
+## LeetCode / DSA
 - [ ] Arrays basics (iteration, prefix sum)
 - [ ] HashMaps (frequency maps, lookups)
 - [ ] Two Pointers
@@ -68,7 +68,7 @@ Focus areas:
 
 # WEEK 2 — Data Structures + System Thinking
 
-## 🧠 LeetCode
+## LeetCode / DSA
 - [ ] Trees (DFS, BFS)
 - [ ] Binary tree problems (depth, traversal)
 - [ ] Heaps / Priority Queues
@@ -121,7 +121,7 @@ Focus areas:
 
 # WEEK 3 — Advanced Systems + Scaling
 
-## LeetCode
+## LeetCode / DSA
 - [ ] Graphs (cycle detection)
 - [ ] Topological sort
 - [ ] Union Find (DSU)
@@ -177,7 +177,7 @@ Focus areas:
 
 # WEEK 4 — Interview Mode + Polish
 
-## LeetCode
+## LeetCode / DSA
 - [ ] Timed practice (simulate interviews)
 - [ ] Mixed problem sets
 - [ ] Review weak patterns
@@ -219,7 +219,7 @@ Focus areas:
 
 # Daily Time Allocation (Recommended)
 
-- LeetCode: 3–4 hours
+- LeetCode / DSA: 3–4 hours
 - System Design: 1.5–2 hours
 - Concepts (CS / Backend / Security): 1–2 hours
 - Behavioral + Applications: 1 hour

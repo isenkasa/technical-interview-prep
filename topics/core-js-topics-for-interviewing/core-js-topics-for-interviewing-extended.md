@@ -1,7 +1,7 @@
 # Core JavaScript Topics (Interview-Focused)
 
 This is an interview-focused JavaScript reference for:
-- LeetCode
+- DSA
 - backend interviews
 - writing clean, correct code under pressure
 
@@ -1504,3 +1504,9 @@ Aim for:
 - optimization second
 
 If you know these JS fundamentals well, you remove a huge source of avoidable mistakes in coding interviews.
+
+# 28. Core JS Topics Assignment
+
+I have created an assignment to test the skills learned in this module.
+
+[Assignment](./core-js-topics-assignment.md)
