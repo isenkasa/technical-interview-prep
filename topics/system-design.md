@@ -1,155 +1,303 @@
 # System Design Concepts
 
-This section covers the system design concepts needed for technical interviews
+This guide covers the system design concepts you need for technical interviews, especially for mid-to-senior backend and full-stack roles.
+
+The goal is not to memorize definitions.
+The goal is to be able to:
+- explain the concept clearly
+- know when to use it
+- understand tradeoffs
+- connect it to real systems
+
+Good system design answers usually follow this structure:
+- clarify requirements
+- estimate scale
+- identify bottlenecks
+- design the high-level architecture
+- drill into data flow and storage
+- discuss tradeoffs and failure handling
+
+---
+
+## How to answer system design questions
+
+A strong interview flow is:
+
+1. clarify functional requirements
+2. clarify non-functional requirements
+3. estimate rough scale
+4. identify core entities and APIs
+5. draw the high-level design
+6. discuss database, caching, and scaling
+7. cover reliability, security, and observability
+8. explain tradeoffs and future improvements
+
+Examples of functional requirements:
+- users can post messages
+- users can upload images
+- users can search products
+
+Examples of non-functional requirements:
+- low latency
+- high availability
+- strong consistency for payments
+- support for millions of users
+- low cost
+
+Interview reminder:
+- do not jump into random components too early
+- first align on the problem and what matters most
+
+---
 
 ## Scalability
 
-What is Scalability?
+### What is scalability?
 
-**Scalability** is the ability of a system to handle increasing load without breaking or becoming too slow.
+Scalability is the ability of a system to handle increasing load without becoming too slow, too expensive, or unreliable.
 
-Increased load is:
+Increased load may mean:
 - more users
 - more requests
 - more data
-- more jobs
-- more integrations
+- more background jobs
+- more third-party integrations
 
-A scalable system continues to perform well as demand grows.
+A scalable system continues to perform reasonably as demand grows.
 
-There are two types of scaling:
-##### Vertical Scaling
-Is also called **scaling up**. You "scale up" one machine, by adding CPU, RAM, disk.
+### Vertical scaling
 
-Pros:
-- Simple
-- No major architecture change
-- Easy early on
+Vertical scaling is also called **scaling up**.
 
-Cons:
-- There is a hardware limit
-- Expensive at higher levels
-- Single point of failure
-- Does not distribute load
-
-##### Horizontal Scaling
-Is also called **scaling out**. You add more machines to the mix and spread traffic across the machines.
-
-Instead of 1 app server, you run 5 app servers behind a load balancer.
+You make one machine stronger by adding:
+- CPU
+- RAM
+- disk
 
 Pros:
-- Handles more load
-- Better Fault Tolerance
-- Easier to keep growing
-- Standard for modern distributed systems
+- simple
+- easy early on
+- minimal architecture changes
 
 Cons:
-- More complexity
-- Requires coordination across servers
-- Shared state becomes harder
-- Needs load balancing and distributed data strategy
+- hardware limit exists
+- becomes expensive
+- single point of failure
+- does not distribute load
 
-Summary: For small systems, vertical scaling is fine at first. For growing systems, horizontal scaling is usually the long term answer.
+### Horizontal scaling
 
-#### Important scalability dimensions
-##### Read Scaling
-Can you system handle lots of reads?
+Horizontal scaling is also called **scaling out**.
+
+You add more machines and spread traffic across them.
+
+Example:
+- instead of 1 app server, run 5 app servers behind a load balancer
+
+Pros:
+- handles more traffic
+- better fault tolerance
+- standard for modern distributed systems
+- easier long-term growth
+
+Cons:
+- more operational complexity
+- coordination across nodes is harder
+- state management becomes harder
+- requires load balancing and distributed data strategy
+
+### Diagonal scaling
+
+Diagonal scaling means:
+- scale up first
+- then scale out later
+
+This is common in real systems.
+
+Interview takeaway:
+- early-stage systems often scale vertically first because it is simpler
+- larger systems usually need horizontal scaling eventually
+
+### Important scalability dimensions
+
+#### Read scaling
+
+Can your system handle lots of reads?
+
 Common solutions:
 - caching
 - read replicas
 - CDN
 - denormalized read models
 
-##### Write Scaling
-Can your system handle lots of writes?
-Common solutions:
-- queues
-- partitioning
-- batching
-- sharding
+#### Write scaling
 
-##### Data Scaling
-Can your database handle increasing volume?
+Can your system handle lots of writes?
+
+Common solutions:
+- partitioning
+- sharding
+- batching
+- queues
+
+#### Data scaling
+
+Can your system handle increasing data volume?
+
 Common solutions:
 - indexing
 - partitioning
 - archival
 - sharding
 
-##### Compute Scaling
+#### Compute scaling
+
 Can your business logic keep up?
+
 Common solutions:
 - more app servers
 - worker queues
 - background jobs
-- serverless or autoscaling
+- serverless/autoscaling for some workloads
 
-So the solution depends on the problem we are trying to solve. Do we need to scale for read, write, data or compute?
+### Common scalability bottlenecks
 
-##### Common scalability bottlenecks
-When a system does not scale well, it is often because of one of these:
-- database becomes overloaded
-- one server handles all traffic
-- too much synchronous work
+When a system fails to scale well, it is usually because one part is under pressure:
+- overloaded database
+- single app server taking all traffic
+- too much synchronous work in request path
 - repeated expensive queries
-- large file delivery from origin server
-- shared session state on one machine
 - poor indexing
+- large file delivery from origin
+- shared in-memory session state
+- CPU-heavy work in request cycle
 - network latency
-- CPU-heavy work inside request cycle
 
-First, we need to identify the bottleneck. Then we need to scale the part under pressure, rather than blindly adding capacity everywhere.
+Interview reminder:
+- find the bottleneck first
+- do not blindly say "add Redis and Kafka" to every problem
 
-### Load balancing basics
-A load balancer distributes incoming traffic across multiple servers so no single server gets overwhelmed.
+---
 
-Example:
-- user requests hit a load balancer
-- load balancer forwards requests to servers A, B or C
+## Load balancing basics
 
-This improves availability, performance, fault tolerance, scalability.
+A load balancer distributes incoming traffic across multiple servers so that no single server gets overwhelmed.
+
+Basic flow:
+- client sends request
+- request hits load balancer
+- load balancer forwards to one of several backend servers
+
+Benefits:
+- better availability
+- improved fault tolerance
+- better horizontal scaling
+- smoother traffic distribution
 
 Without load balancing:
 - one server can become overloaded
-- failure of that server causes downtime
-- scaling horizontally is harder
+- one server failure can cause downtime
+- horizontal scaling is hard
 
 With load balancing:
 - traffic is spread out
-- failed instances can be removed
-- new servers can be added more easily
+- unhealthy instances can be removed
+- new instances can be added more easily
 
-How does the load balancer know which server to send the request to? There are several common load balancing algorithms
+### Common load balancing algorithms
 
-#### Round Robin
-Requests go to servers in order. It's good when servers are similar and workload is even.
+#### Round robin
+
+Requests go to servers in order.
+
+Best when:
+- servers are similar
+- traffic is relatively even
 
 #### Least connections
-Sends requests to server with fewest active connections.
-Good when requests vary in duration and some requests are heavier than others.
+
+Sends requests to the server with the fewest active connections.
+
+Best when:
+- request durations vary
+- some requests are much heavier than others
 
 #### Weighted round robin
-Some servers get more traffic based on capacity.
-Example: stronger server gets 2x the traffic of weaker server. It is good when server sizes differ.
 
-#### IP hash/sticky routing
+Servers get traffic based on capacity.
+
+Example:
+- one stronger server gets 2x the traffic of a weaker one
+
+Best when:
+- server capacity differs
+
+#### IP hash / sticky sessions
+
 The same client tends to go to the same server.
-It's good when session affinity is needed. It is not ideal when one server gets too many "sticky" users, and you want stateless architecture.
 
-A good load balancer performs health checks to see whether a server is alive. This is critical for high availability.
+Useful when:
+- session affinity is required
 
-#### L4 vs L7 load balancing
-Layer 4 - routes based on IP and port. It's faster and lower level.
+Drawbacks:
+- uneven traffic distribution
+- reduces flexibility
+- less ideal than stateless app design
 
-Layer 7 - Routes based on HTTP details like: URL path, header, cookies, request type. Used in web apps.
+### Health checks
 
-Load balancing works best when app servers are stateless. That means: no local session dependency and no important state stored in memory of one server. If state is needed, we need to store it in Redis, database, or use signed tokens like JWT.
+A good load balancer performs health checks.
 
-## Caching fundamentals (Redis, CDN)
+This means it can:
+- detect dead or unhealthy instances
+- stop routing traffic to them
+- improve availability
 
-Caching means storing frequently accessed items in a "fast" memory so that they can be retrieved quickly in the future.
+### L4 vs L7 load balancing
 
-You are saving the result in a temporary cache. Instead of having to run the query again, you return the saved result.
+#### Layer 4
+
+Routes based on:
+- IP
+- port
+
+Pros:
+- faster
+- simpler
+
+#### Layer 7
+
+Routes based on:
+- URL path
+- headers
+- cookies
+- HTTP method
+
+Pros:
+- more flexible
+- useful for web applications and API routing
+
+Interview takeaway:
+- L4 is lower-level and faster
+- L7 is more application-aware and flexible
+
+### Stateless app servers
+
+Load balancing works best when app servers are stateless.
+
+That means:
+- no required session state stored only in one server’s memory
+- important state lives in a shared system like Redis or a database
+
+If you need state:
+- use Redis/session store
+- use signed tokens like JWT when appropriate
+
+---
+
+## Caching fundamentals
+
+Caching means storing frequently accessed data in a faster layer so future requests can be served more quickly.
 
 Caching helps:
 - reduce latency
@@ -158,25 +306,39 @@ Caching helps:
 - improve user experience
 - lower cost
 
-Without a cache: the user makes a request -> app queries the database -> returns the result
+Basic cache flow:
+- request arrives
+- app checks cache
+- if hit, return cached result
+- if miss, fetch from source of truth
+- store result in cache
+- return result
 
-With a cache: the user makes a request -> app checks cache first -> if the result is found -> returns the result
+### Important terms
 
-##### Important terms
-**Cache hit**
-Requested data was found in cache
+#### Cache hit
 
-**Cache miss**
-Requested data was not found in cache
+Requested data was found in cache.
 
-**TTL** (Time to live)
-How long cached data stays before expiring
+#### Cache miss
 
-**Eviction**
-Removing items from cache when space is needed or data expires
+Requested data was not found in cache.
 
-##### Redis
-Redis is an in-memory data store used for:
+#### TTL
+
+Time to live.
+How long cached data remains valid before expiring.
+
+#### Eviction
+
+Removing data from cache when:
+- it expires
+- memory is full
+- the system decides less useful entries should be removed
+
+### Redis
+
+Redis is an in-memory data store commonly used for:
 - caching
 - session storage
 - rate limiting
@@ -184,200 +346,1038 @@ Redis is an in-memory data store used for:
 - pub/sub
 - queues
 
-Because it stores data in memory, it is much faster than a typical database.
+Because it stores data in memory, it is usually much faster than a traditional database.
 
 Typical Redis cache flow:
 - app checks Redis for key
 - if key exists, return value
-- if not, query DB
+- otherwise query DB
 - save result in Redis with TTL
 - return result
 
 Example:
-key: user:123
-value: serialized user profile
-TTL: 300 seconds
+- key: `user:123`
+- value: serialized user profile
+- TTL: 300 seconds
 
-Good use cases for Redis:
-- user profiles that are read often
+Good Redis use cases:
+- user profile lookups
 - product details
 - dashboard summaries
 - expensive query results
 - session lookup
-- auth tokens or short-lived data
 - rate limiting counters
 
-Risks of Redis caching:
+Risks:
 - stale data
 - invalidation complexity
 - memory cost
-- cache stampede if many requests miss at once
-// TODO: Focus more here
+- cache stampede when many requests miss at once
 
-##### CDN
-A CDN (Content Delivery Network) is a distributed network of edge servers that cache static or cacheable content closer to users geographically.
+### CDN
 
-Examples of content a CDN helps with:
+A CDN (Content Delivery Network) is a globally distributed set of edge servers that cache content closer to users.
+
+Useful for:
 - images
 - CSS
 - JavaScript files
 - videos
 - documents
-- cacheable API responses
+- some cacheable API responses
 
-If your origin server is in one region and users are worldwide, latency increases. A CDN stores copies closer to users, resulting in:
-- faster content loading
-- reducing traffic to origin server
-- reduced bandwidth use
-- spike resiliency
+Benefits:
+- lower latency
+- lower origin server load
+- better spike handling
+- better experience for global users
 
 Typical CDN flow:
-1. user requests image
-2. CDN edge checks if it has cached version
-3. IF yes, return the image
-4. IF no, fetch from origin, cache it, then serve it
+1. user requests asset
+2. edge server checks local cache
+3. if cached, serve immediately
+4. if not cached, fetch from origin, cache it, and serve it
 
-Best use cases for CDN
+Best use cases:
 - static assets
 - public media
 - downloadable files
-- geographically distributed users
-- high traffic websites
+- global traffic
 
-CDNs are best known for static content, but can also help with some dynamic content if the repsonse is cacheable and TTL and cache headers are well controlled.
+### Types of caching
 
-**Types of caching**
+#### Client-side cache
 
-**Client-side cache**
-Stored in browser or app
+Stored in browser or mobile app.
+
 Good for:
 - static assets
 - previously fetched resources
 
-**CDN/edge cache**
-Stored close to users globally
+#### CDN / edge cache
+
+Stored close to users globally.
+
 Good for:
 - static assets
 - public content
 - cacheable responses
 
-**Application cache**
-Stored in Redis or memory
+#### Application cache
+
+Stored in Redis or app memory.
+
 Good for:
 - DB query results
 - computed values
 - session data
 
-**Database cache / buffer cache**
-Managed internally by database engine
-Good to know exists, but usually not your main interview focus
+#### Database cache / buffer cache
+
+Managed internally by the database engine.
+
+Good to know it exists, but it is usually not the main interview focus.
 
 ### Common caching strategies
-**Cache-aside**
-Most common.
+
+#### Cache-aside
+
+Most common strategy.
+
 Flow:
 - app checks cache
 - on miss, app fetches from DB
 - app writes to cache
-- returns result
+- app returns result
 
 Pros:
 - simple
-- only cache data that is actually requested
-Cons:
-- first request is slower
-- stale data risk after DB update
+- only caches requested data
 
-**Write-through**
-When app writes to DB, it also writes to cache immediately
+Cons:
+- first request after miss is slower
+- stale data risk after writes
+
+#### Write-through
+
+When app writes to DB, it also updates cache immediately.
+
 Pros:
-- cache stays fresh
+- cache stays fresher
 
 Cons:
 - extra write overhead
 - may cache unused data
 
-**Write-back/write-behind**
-Write to cache first, then database later
+#### Write-back / write-behind
+
+Write to cache first, persist to DB later.
+
 Pros:
 - very fast writes
 
 Cons:
 - higher complexity
-- risk of data loss if cache fails before DB write
+- risk of data loss if cache fails before persistence
 
-Not usually first choice unless special performance needs exist
+Use carefully.
 
-**Refresh-ahead**
-Cache proactively refreshed before expiry
+#### Refresh-ahead
+
+Hot keys are refreshed before they expire.
+
 Useful for:
-- hot keys
-- frequently accessed content
+- heavily accessed keys
+- predictable hot content
 
 ### When to cache vs not cache
 
-You should cache data when data is:
-- read heavy
+You should cache when data is:
+- read-heavy
 - expensive to compute
 - slow to fetch
 - stable enough
+- tolerant of some staleness
 
-Avoid caching when data is
+Avoid or limit caching when data is:
 - highly dynamic
-    - stock price tick data
-    - real time game state
-    - rapidly changing dashboards
+- consistency-critical
 - user-specific and sensitive
-    - private account details
 - rarely requested
 - cheap to compute and fetch
-- consistency-critical
-    - bank balances
-    - payment state
-    - inventory counts
 
-In these cases, either avoid caching or use very careful invalidation and low TTL
-
-**Summary**
-Cache when:
-- data is read often
-- data changes infrequently
-- fetching it is expensive
-- small staleness is acceptable
-
-Avoid or limit cache when:
-- data changes constantly
-- strict real-time consistency is required
-- wrong stale data could cause user or business issues
-- cache invalidation complexity outweighs benefit
+Examples of risky cache targets:
+- bank balances
+- payment state
+- rapidly changing inventory counts
+- fast-moving real-time state
 
 ### Cache invalidation
-One of the hardest parts of caching is keeping data fresh
+
+One of the hardest parts of caching is keeping data fresh.
 
 Common strategies:
 
-**TTL-based expiration**
+#### TTL-based expiration
+
 Let data expire after a set time.
-Example: user profile cached for 5 minutes.
 
-**Explicit invalidation**
-When data changes, delete or update corresponding cache key
-Example: user updates profile -> app deletes cache key
+Example:
+- user profile cached for 5 minutes
 
-**Versioned keys**
-Use version number in cache key so old values stop being used
-Example: ```product:123:v2```
+Pros:
+- simple
+- predictable
 
-**Tradeoff**
-Long TTL:
-- higher performance
-- more stale risk
+Cons:
+- stale until expiry
 
-Short TTL:
-- fresher data
-- lower cache effectiveness
+#### Explicit invalidation
 
-Caching is not free. Caching improves speed but introduces stale reads, invalidation complexity, operational complexity. We should only cache where the performance gains justify the consistency tradeoff.
+When data changes, delete or update the related cache key.
 
-Rules of thumb:
-To scale a system, keep the app tier stateless, put a load balancer in front, cache frequent reads with Redis, serve static content through a CDN, and treat the database as the source of truth.
+Example:
+- user updates profile
+- app deletes `user:123`
+
+Pros:
+- fresher cache
+
+Cons:
+- more logic
+- easier to forget invalidation path
+
+#### Versioned keys
+
+Put a version into the key so old values stop being used.
+
+Example:
+- `product:123:v2`
+
+Useful when:
+- invalidation coordination is difficult
+
+### Common cache problems
+
+#### Cache stampede
+
+Many requests miss the same hot key at once and all hit the database.
+
+Possible fixes:
+- request coalescing
+- locking
+- refresh-ahead
+- jittered TTLs
+
+#### Stale reads
+
+Cache returns old data after the source of truth changed.
+
+Fixes:
+- shorter TTL
+- explicit invalidation
+- write-through strategies in some flows
+
+#### Hot keys
+
+One cache key gets massive traffic and becomes a bottleneck.
+
+Fixes:
+- replication
+- local caching layer
+- better key distribution
+
+Interview takeaway:
+- caching improves speed but adds consistency and operational complexity
+- treat the database as source of truth unless the design specifically says otherwise
+
+---
+
+## Database replication
+
+Replication means copying data from one database instance to other database instances.
+
+Common model:
+- one primary
+- one or more replicas
+
+The primary usually handles writes.
+Replicas often handle reads.
+
+Benefits:
+- read scaling
+- better availability
+- backup/disaster recovery benefits
+
+Tradeoffs:
+- replication lag
+- stale reads on replicas
+- failover complexity
+
+Interview example:
+- heavy read traffic system can send writes to primary and reads to replicas
+
+Important concept:
+- replication improves read scale more naturally than write scale
+
+### Synchronous vs asynchronous replication
+
+#### Synchronous
+
+Primary waits for replica acknowledgment before confirming the write.
+
+Pros:
+- stronger consistency
+
+Cons:
+- higher write latency
+- reduced availability in some failure cases
+
+#### Asynchronous
+
+Primary confirms write before replicas fully catch up.
+
+Pros:
+- lower latency
+- often easier operationally
+
+Cons:
+- replication lag
+- stale reads
+- possible data loss during failover
+
+---
+
+## Sharding basics
+
+Sharding means splitting data across multiple databases or partitions so one database does not hold everything.
+
+Why shard:
+- data too large for one DB
+- write throughput too high for one DB
+- want to distribute load
+
+Examples of shard keys:
+- `userId`
+- geographic region
+- tenant/company id
+
+### Common sharding strategies
+
+#### Range-based sharding
+
+Shard based on ranges.
+
+Example:
+- users 1-1,000,000 on shard A
+- users 1,000,001-2,000,000 on shard B
+
+Risk:
+- uneven distribution if one range gets hot
+
+#### Hash-based sharding
+
+Shard based on hash of key.
+
+Pros:
+- more even data distribution
+
+Cons:
+- range queries are harder
+
+#### Directory-based sharding
+
+Use a lookup service to map entity to shard.
+
+Pros:
+- flexible
+
+Cons:
+- extra complexity
+
+### Sharding tradeoffs
+
+Benefits:
+- higher write scale
+- better data distribution
+- allows growth beyond one machine
+
+Costs:
+- cross-shard joins become harder
+- transactions become harder
+- rebalancing is hard
+- operational complexity increases
+
+Interview takeaway:
+- do not jump to sharding early
+- first use indexing, query optimization, and replication where possible
+
+---
+
+## CAP theorem
+
+CAP theorem says that in the presence of a network partition, a distributed system can choose at most two of:
+- consistency
+- availability
+- partition tolerance
+
+Definitions:
+
+#### Consistency
+
+Every read gets the latest write, or an error.
+
+#### Availability
+
+Every request gets a response, even if it may not be the latest data.
+
+#### Partition tolerance
+
+The system continues operating despite network failures between nodes.
+
+Important clarification:
+- in real distributed systems, partition tolerance is usually not optional
+- so the real tradeoff is often between consistency and availability during partitions
+
+Interview explanation:
+
+> When nodes cannot communicate reliably, you often must choose whether to reject some requests to preserve consistency or continue serving requests with possible stale data.
+
+---
+
+## Strong vs eventual consistency
+
+### Strong consistency
+
+After a write completes, future reads return the latest value.
+
+Useful for:
+- payments
+- bank balances
+- critical account state
+
+Tradeoffs:
+- higher latency
+- lower availability during some failure scenarios
+
+### Eventual consistency
+
+Reads may temporarily return older data, but the system converges over time.
+
+Useful for:
+- feeds
+- analytics
+- social counters
+- replicated caches
+
+Tradeoffs:
+- better availability and scalability
+- temporary stale reads
+
+Interview takeaway:
+- choose consistency level based on business requirements
+- not every system needs strong consistency everywhere
+
+---
+
+## SQL vs NoSQL tradeoffs
+
+### SQL databases
+
+Strengths:
+- strong relational modeling
+- joins
+- transactions
+- mature tooling
+- great for structured data and consistency-heavy workflows
+
+Good fit:
+- payments
+- orders
+- inventory
+- core transactional systems
+
+### NoSQL databases
+
+Strengths:
+- flexible schemas
+- horizontal scaling patterns
+- often good for high throughput or specific access patterns
+
+Types include:
+- document databases
+- key-value stores
+- wide-column stores
+- graph databases
+
+Good fit:
+- large-scale content storage
+- rapidly evolving schemas
+- cache/session stores
+- specialized high-scale use cases
+
+Interview answer:
+- SQL vs NoSQL is not about "old vs modern"
+- it is about data model, consistency needs, query patterns, and scale requirements
+
+---
+
+## Rate limiting
+
+Rate limiting controls how many requests a client can make in a given time window.
+
+Why it matters:
+- protect services from abuse
+- prevent brute force attacks
+- control costs
+- improve fairness
+
+Common dimensions:
+- per IP
+- per user
+- per API key
+- per endpoint
+
+### Common algorithms
+
+#### Fixed window
+
+Example:
+- 100 requests per minute
+
+Pros:
+- simple
+
+Cons:
+- burstiness near window boundaries
+
+#### Sliding window
+
+Tracks requests in a rolling window.
+
+Pros:
+- smoother control
+
+Cons:
+- more state/complexity
+
+#### Token bucket
+
+Tokens refill at a fixed rate.
+Requests consume tokens.
+
+Pros:
+- allows controlled bursts
+- common real-world choice
+
+#### Leaky bucket
+
+Requests are processed at a steady rate.
+
+Pros:
+- smooth traffic
+
+Useful when:
+- steady output rate matters
+
+### Distributed rate limiting
+
+In multi-server systems, counters usually need shared storage.
+
+Common choice:
+- Redis
+
+Interview note:
+- local in-memory counters do not work well across multiple app servers
+
+---
+
+## Queues and asynchronous processing
+
+Queues let you move work out of the request-response path.
+
+Use cases:
+- sending emails
+- video/image processing
+- report generation
+- retrying external API calls
+- background notifications
+
+Basic flow:
+1. request comes in
+2. app writes job to queue
+3. worker consumes job later
+4. worker processes and stores result
+
+Benefits:
+- faster user-facing responses
+- better reliability
+- natural retry model
+- decouples producers from consumers
+
+Tradeoffs:
+- eventual consistency
+- harder debugging
+- retries and duplicate handling become important
+
+### Kafka vs SQS style mental model
+
+#### Kafka
+
+Commonly used for:
+- event streams
+- high-throughput pipelines
+- replayable logs
+
+#### SQS-style queues
+
+Commonly used for:
+- background jobs
+- simple async task processing
+
+Interview takeaway:
+- not every async system needs Kafka
+- many systems just need a reliable queue
+
+---
+
+## Event-driven architecture
+
+In event-driven architecture, services publish events when something happens, and other services react to those events.
+
+Example:
+- order service emits `OrderCreated`
+- email service sends confirmation
+- analytics service records event
+- inventory service reserves stock
+
+Benefits:
+- loose coupling
+- extensibility
+- easier fan-out to multiple consumers
+
+Tradeoffs:
+- harder debugging
+- eventual consistency
+- ordering guarantees can be tricky
+- duplicate event handling matters
+
+Interview reminder:
+- event-driven systems need idempotent consumers
+
+---
+
+## Monolith vs microservices
+
+### Monolith
+
+A monolith is a single deployable application.
+
+Pros:
+- simpler development and deployment
+- easier local testing
+- fewer distributed system concerns
+- simpler transactions
+
+Cons:
+- can become hard to scale organizationally
+- larger blast radius if poorly structured
+
+### Microservices
+
+Microservices split a system into independently deployable services.
+
+Pros:
+- team autonomy
+- independent scaling
+- service boundaries can improve ownership
+
+Cons:
+- operational complexity
+- network failures
+- distributed tracing/debugging challenges
+- data consistency becomes harder
+
+Interview answer:
+- start with monolith unless scale, team structure, or independent scaling truly justify microservices
+
+---
+
+## Idempotency
+
+An operation is idempotent if doing it multiple times has the same effect as doing it once.
+
+Examples:
+- `GET` should be idempotent
+- `PUT` is usually idempotent
+- `POST` often is not unless designed carefully
+
+Why it matters:
+- retries happen in distributed systems
+- clients may resend requests after timeouts
+
+Critical example:
+- payment API
+- request times out
+- client retries
+- without idempotency, customer may be charged twice
+
+Common fix:
+- idempotency key stored server-side
+
+---
+
+## Retry strategies and backoff
+
+Retries help recover from transient failures such as:
+- network glitches
+- short upstream outages
+- temporary throttling
+
+Good retry practices:
+- exponential backoff
+- jitter
+- retry caps
+- retry only safe operations unless otherwise designed
+
+Bad retry pattern:
+- instant repeated retries forever
+
+Why bad:
+- can amplify overload
+- can create retry storms
+
+Interview note:
+- retries and idempotency often belong together
+
+---
+
+## Circuit breakers
+
+A circuit breaker prevents repeated calls to a failing dependency.
+
+Basic idea:
+- if downstream service keeps failing
+- stop sending requests to it temporarily
+- fail fast instead
+
+States:
+- closed: normal traffic flows
+- open: requests fail fast
+- half-open: allow limited test requests to see if dependency recovered
+
+Benefits:
+- protects system resources
+- prevents cascading failure
+- improves resilience
+
+---
+
+## Observability
+
+Observability is the ability to understand what is happening inside a system by looking at its outputs.
+
+Three core pillars:
+- logs
+- metrics
+- tracing
+
+### Logs
+
+Useful for:
+- detailed events
+- debugging specific failures
+
+Good logs are:
+- structured
+- contextual
+- consistent
+
+### Metrics
+
+Useful for:
+- request rate
+- error rate
+- latency
+- CPU
+- memory
+- queue depth
+
+Metrics help you see trends and alert on problems.
+
+### Tracing
+
+Tracing shows the flow of a request across services.
+
+Useful for:
+- identifying bottlenecks
+- debugging distributed systems
+- understanding cross-service latency
+
+Interview takeaway:
+- observability is how you debug production systems you cannot just step through locally
+
+---
+
+## Latency vs throughput
+
+### Latency
+
+How long one request takes.
+
+Example:
+- request completes in 120ms
+
+### Throughput
+
+How much work the system handles per unit of time.
+
+Example:
+- 5,000 requests per second
+
+Important:
+- a system can have low latency but limited throughput
+- a system can have high throughput but poor latency under load
+
+Interview note:
+- always ask which one matters more for the system
+
+---
+
+## API bottlenecks
+
+Common bottlenecks in APIs:
+- slow DB queries
+- missing indexes
+- synchronous external API calls
+- large payloads
+- too many round trips
+- expensive serialization
+- CPU-heavy work in request cycle
+- lack of caching
+
+How to reason about API bottlenecks:
+- find where time is spent
+- check DB first for many backend systems
+- inspect external dependencies
+- measure before optimizing
+
+---
+
+## Object storage basics
+
+Object storage systems like S3 are designed for storing large blobs such as:
+- images
+- videos
+- backups
+- documents
+- logs
+
+Good properties:
+- durable
+- scalable
+- cost-effective for large files
+
+Typical pattern:
+- app stores metadata in DB
+- actual file goes to object storage
+
+Interview takeaway:
+- do not store large media blobs directly in your main relational database unless there is a strong reason
+
+---
+
+## Managed databases
+
+Managed databases like RDS-style services help by handling:
+- backups
+- patching
+- failover tooling
+- monitoring integrations
+
+Benefits:
+- lower operational burden
+- quicker setup
+
+Tradeoffs:
+- less low-level control
+- vendor/service constraints
+
+Interview note:
+- managed services are often the practical production choice unless special constraints require self-management
+
+---
+
+## Serverless basics
+
+Serverless functions like Lambda-style systems run code without managing servers directly.
+
+Good fit:
+- event-driven workloads
+- infrequent jobs
+- bursty traffic
+- lightweight APIs
+
+Tradeoffs:
+- cold starts
+- runtime limits
+- debugging complexity
+- vendor-specific constraints
+
+Interview takeaway:
+- serverless is useful, but not a universal replacement for long-running services
+
+---
+
+## Docker fundamentals
+
+Containers package an application with its environment and dependencies.
+
+Benefits:
+- consistent environments
+- easier deployment
+- reproducible builds
+
+Why this matters in system design:
+- deployment consistency affects reliability
+- containerized apps are easier to move between environments
+
+---
+
+## CI/CD basics
+
+CI/CD usually includes:
+- build
+- test
+- lint
+- package
+- deploy
+
+Why it matters:
+- safer releases
+- faster feedback
+- more repeatable deployments
+
+In senior-level interviews, deployment and release process can matter as much as architecture diagrams.
+
+---
+
+## Common system design patterns
+
+### Read-heavy systems
+
+Use:
+- CDN
+- Redis cache
+- read replicas
+- denormalized views
+
+Examples:
+- news feeds
+- product catalog pages
+
+### Write-heavy systems
+
+Use:
+- partitioning
+- batching
+- queues
+- scalable storage strategy
+
+Examples:
+- logging pipelines
+- analytics ingestion
+
+### Real-time systems
+
+Use:
+- WebSockets or streaming
+- pub/sub
+- careful state management
+
+Examples:
+- chat
+- multiplayer coordination
+
+### File/media systems
+
+Use:
+- object storage
+- CDN
+- background processing
+
+Examples:
+- photo/video upload platforms
+
+---
+
+## Common interview system examples
+
+Be ready to talk about:
+- URL shortener
+- rate limiter
+- chat system
+- news feed
+- file storage service
+- notification system
+- scalable REST API
+
+For each one, think through:
+- read vs write pattern
+- consistency needs
+- latency requirements
+- scale assumptions
+- likely bottlenecks
+
+---
+
+## What to say when you get stuck
+
+If you are unsure, say something like:
+
+> I’d like to clarify the scale and the most important non-functional requirement first, because the design would differ a lot depending on whether we care most about low latency, strong consistency, or extreme scale.
+
+That is much stronger than guessing blindly.
+
+Another strong sentence:
+
+> I’ll start with a simple design that works for moderate scale, then I’ll explain what I would add as traffic grows.
+
+This shows maturity.
+
+---
+
+## Final review sheet
+
+### Core concepts you should be able to explain clearly
+
+- vertical vs horizontal scaling
+- load balancers
+- caching and cache invalidation
+- replication
+- sharding
+- CAP theorem
+- strong vs eventual consistency
+- SQL vs NoSQL tradeoffs
+- rate limiting
+- queues
+- event-driven architecture
+- monolith vs microservices
+- idempotency
+- retries and circuit breakers
+- observability
+- latency vs throughput
+- object storage
+
+### Common rules of thumb
+
+- keep app servers stateless when possible
+- treat the database as source of truth
+- cache read-heavy data, not everything
+- use queues for slow or retryable background work
+- choose consistency level based on business needs
+- do not shard too early
+- favor simple architecture before distributed complexity
+- every distributed system needs failure handling and observability
+
+If you can define these concepts, explain when to use them, and talk about tradeoffs confidently, you will be in strong shape for system design interviews.
