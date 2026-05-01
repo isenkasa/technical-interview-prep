@@ -2,13 +2,11 @@
 
 A compact knowledge base for software engineering interview preparation, with notes and exercises for coding, backend fundamentals, system design, networking, security, and language-specific backend tracks.
 
-Use [PLAN.md](./PLAN.md) if you want a structured study plan. Otherwise, jump directly into the topic you need.
-
 ## Contents
 
 ### Core
 
-- [4-Week Learning Plan](./PLAN.md)
+- [Learning Checklist](./PLAN.md)
 - [General Concepts](./topics/concepts.md)
 - [Object Oriented Programming](./topics/oop.md)
 - [Backend Concepts](./topics/backend.md)
