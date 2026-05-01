@@ -1,239 +1,111 @@
-# 4-Week Interview Prep Plan
+# Interview Prep Plan
 
-## Overview
-This plan is designed to prepare for **mid → senior software engineer and solutions engineer roles**.
+A checklist for software engineering interview prep. Use it in any order based on the role, your weak spots, and upcoming interview format.
 
-Focus areas:
-- LeetCode (DSA)
-- System Design
-- Backend / Web / Security
-- Computer Science fundamentals
-- Behavioral
+## DSA
 
----
+- [ ] Arrays and iteration
+- [ ] Prefix sums
+- [ ] Hash maps and frequency maps
+- [ ] Two pointers
+- [ ] Sliding window
+- [ ] Binary search
+- [ ] Trees
+- [ ] Binary tree DFS and BFS
+- [ ] Heaps and priority queues
+- [ ] Graph BFS and DFS
+- [ ] Cycle detection
+- [ ] Topological sort
+- [ ] Union find
+- [ ] Basic dynamic programming
+- [ ] Timed mixed practice
+- [ ] Review weak patterns
 
-# WEEK 1 — Foundations + Core Patterns
+## System Design
 
-## LeetCode / DSA
-- [ ] Arrays basics (iteration, prefix sum)
-- [ ] HashMaps (frequency maps, lookups)
-- [ ] Two Pointers
-- [ ] Sliding Window
-- [ ] Binary Search (basic + on answer)
-
----
-
-## System Design (Foundations)
-- [ ] Understand scalability (vertical vs horizontal)
-- [ ] Load balancing basics
-- [ ] Caching fundamentals (Redis, CDN)
+- [ ] Scalability: vertical vs horizontal
+- [ ] Load balancing
+- [ ] Caching: Redis and CDNs
 - [ ] When to cache vs not cache
+- [ ] Database replication
+- [ ] Sharding
+- [ ] CAP theorem
+- [ ] Strong vs eventual consistency
+- [ ] Rate limiting: token bucket and leaky bucket
+- [ ] Queues: Kafka, SQS, and background jobs
+- [ ] Event-driven architecture
+- [ ] Microservices vs monoliths
+- [ ] Full design practice: requirements, scale, API, database, tradeoffs
 
----
+## Backend and Databases
 
-## Backend / DB
-- [ ] SQL joins (inner, left, etc.)
-- [ ] Indexing basics
-- [ ] Query optimization basics
-- [ ] REST API design principles
-- [ ] Pagination (offset vs cursor)
+- [ ] REST API design
+- [ ] Pagination: offset vs cursor
+- [ ] SQL joins
+- [ ] Indexing
+- [ ] Query optimization
+- [ ] Transactions and ACID
+- [ ] N+1 query problem
+- [ ] Caching strategies
+- [ ] Idempotency
+- [ ] Retry strategies and backoff
+- [ ] Circuit breakers
+- [ ] Observability: logs, metrics, tracing
 
----
+## Networking and CS
 
-## Networking / CS
 - [ ] HTTP vs HTTPS
 - [ ] TCP vs UDP
 - [ ] DNS resolution flow
-
----
-
-## Security
-- [ ] Auth vs Authorization
-- [ ] JWT basics
-- [ ] TLS basics (encryption in transit)
-
----
-
-## Behavioral (START HERE — NOT WEEK 4)
-- [ ] List 8–10 experiences (projects, failures, leadership)
-- [ ] Identify themes (ownership, conflict, impact, ambiguity)
-
----
-
-## Output
-- [ ] Explain “what happens when you type a URL”
-- [ ] Design a basic scalable API
-
----
-
-# WEEK 2 — Data Structures + System Thinking
-
-## LeetCode / DSA
-- [ ] Trees (DFS, BFS)
-- [ ] Binary tree problems (depth, traversal)
-- [ ] Heaps / Priority Queues
-- [ ] Intro Graphs (BFS/DFS)
-
----
-
-## System Design
-- [ ] Database replication
-- [ ] Sharding basics
-- [ ] CAP theorem
-- [ ] Strong vs eventual consistency
-
----
-
-## Backend / DB
-- [ ] Transactions (ACID)
-- [ ] Index deep dive
-- [ ] N+1 problem
-- [ ] Caching strategies (read/write)
-
----
-
-## CS Fundamentals
+- [ ] What happens when you type a URL
 - [ ] Processes vs threads
 - [ ] Concurrency basics
-- [ ] Memory (heap vs stack)
-
----
-
-## Security
-- [ ] SQL Injection
-- [ ] XSS
-- [ ] Input validation strategies
-
----
-
-## Behavioral
-- [ ] Convert stories into STAR format
-- [ ] Add metrics to each story
-- [ ] Identify tradeoffs made
-
----
-
-## Output
-- [ ] Design a URL shortener
-- [ ] Explain SQL vs NoSQL tradeoffs
-
----
-
-# WEEK 3 — Advanced Systems + Scaling
-
-## LeetCode / DSA
-- [ ] Graphs (cycle detection)
-- [ ] Topological sort
-- [ ] Union Find (DSU)
-- [ ] Basic Dynamic Programming
-
----
-
-## System Design
-- [ ] Rate limiting (token bucket, leaky bucket)
-- [ ] Queues (Kafka, SQS)
-- [ ] Event-driven architecture
-- [ ] Microservices vs monolith
-
----
-
-## Backend / Architecture
-- [ ] Idempotency
-- [ ] Retry strategies (backoff)
-- [ ] Circuit breakers
-- [ ] Observability (logs, metrics, tracing)
-
----
-
-## Cloud / DevOps
-- [ ] S3 / object storage basics
-- [ ] RDS / managed databases
-- [ ] Lambda / serverless basics
-- [ ] Docker fundamentals
-- [ ] CI/CD basics
-
----
-
-## Networking (Advanced)
-- [ ] Load balancing strategies
+- [ ] Heap vs stack memory
 - [ ] Latency vs throughput
 - [ ] API bottlenecks
 
----
+## Security
+
+- [ ] Authentication vs authorization
+- [ ] JWT basics
+- [ ] TLS basics
+- [ ] SQL injection
+- [ ] XSS
+- [ ] Input validation
+
+## Cloud and DevOps
+
+- [ ] Object storage: S3-style systems
+- [ ] Managed databases
+- [ ] Serverless basics
+- [ ] Docker fundamentals
+- [ ] CI/CD basics
 
 ## Behavioral
-- [ ] Practice telling stories out loud
-- [ ] Refine answers to 2–3 minutes
-- [ ] Remove fluff, focus on impact
 
----
-
-## Output
-- [ ] Design a rate limiter
-- [ ] Design a chat system
-- [ ] Explain how to scale to millions of users
-
----
-
-# WEEK 4 — Interview Mode + Polish
-
-## LeetCode / DSA
-- [ ] Timed practice (simulate interviews)
-- [ ] Mixed problem sets
-- [ ] Review weak patterns
-
----
-
-## System Design (Mocks)
-- [ ] Practice full system design daily
-- [ ] Follow structure: requirements → scale → API → DB → tradeoffs
-- [ ] Practice speaking out loud
-
----
-
-## Behavioral
-- [ ] Leadership story finalized
-- [ ] Conflict story finalized
-- [ ] Ownership story finalized
-- [ ] Failure story finalized
-- [ ] Impact story finalized
-- [ ] Ambiguity story finalized
+- [ ] List 8-10 strong stories from projects, failures, leadership, conflict, and ambiguity
+- [ ] Convert stories into STAR format
+- [ ] Add metrics and impact to each story
+- [ ] Practice answers out loud
+- [ ] Refine answers to 2-3 minutes
+- [ ] Prepare leadership, conflict, ownership, failure, impact, and ambiguity stories
 - [ ] Practice follow-up questions
 
----
-
 ## Solutions Engineer Skills
-- [ ] Translate business → technical solution
-- [ ] Explain systems simply (non-technical audience)
-- [ ] Design under constraints (time/cost/scale)
 
----
+- [ ] Translate business needs into technical solutions
+- [ ] Explain systems clearly to non-technical audiences
+- [ ] Design under constraints: time, cost, scale
+- [ ] Debug production issues
+- [ ] Handle system slowness
+- [ ] Discuss third-party API integrations
+- [ ] Identify scaling bottlenecks
 
-## Real-World Scenarios
-- [ ] Debugging production issues
-- [ ] Handling system slowness
-- [ ] API integrations (3rd party)
-- [ ] Scaling bottlenecks
+## Practice Designs
 
----
-
-# Daily Time Allocation (Recommended)
-
-- LeetCode / DSA: 3–4 hours
-- System Design: 1.5–2 hours
-- Concepts (CS / Backend / Security): 1–2 hours
-- Behavioral + Applications: 1 hour
-
----
-
-# Rules
-
-- Do not move on until you can:
-  - Explain the concept clearly
-  - Apply it in a real scenario
-  - Solve related problems confidently
-
-- Focus on:
-  - Depth > breadth
-  - Communication > memorization
-  - Patterns > random practice
+- [ ] Design a basic scalable API
+- [ ] Design a URL shortener
+- [ ] Design a rate limiter
+- [ ] Design a chat system
+- [ ] Explain SQL vs NoSQL tradeoffs
+- [ ] Explain how to scale to millions of users
