@@ -1,6 +1,6 @@
 # Technical Interview Prep
 
-A compact set of interview notes and exercises. Use the topics in whatever order fits the role, interview format, or skill you want to sharpen.
+A curated knowledge repo of interview notes, examples, and exercises that have been useful to me while preparing for and going through technical interviews.
 
 ## Topics
 
